@@ -53,7 +53,6 @@ function switchTab(tabId) {
     const target = document.getElementById('tab-' + tabId);
     if (target) target.classList.remove('hidden');
     
-    // Inyección de contexto explícita para compatibilidad total con GitHub Pages
     if (window.event && window.event.currentTarget) {
         window.event.currentTarget.classList.add('active');
     }
@@ -249,20 +248,15 @@ function analizarTodoConIA() {
             </tr>
         `;
 
-        // Inicializador automático para cargar el primer sub-tab sin romper flujos
         const primerSubTabCard = document.querySelector('.sub-tab-card');
         if (primerSubTabCard) {
             cambiarSubTab(primerSubTabCard, 'archivos/acta1.pdf', 'Documento 1: Acta de Denuncia');
         }
 
-        // Activamos y movemos de forma inmediata el enfoque al análisis probabilístico
         mostrarModuloEspecifico('predict');
     }, 1200);
 }
 
-// ==========================================
-// FUNCIÓN DE EXCLUSIÓN Y FILTRADO MODULAR
-// ==========================================
 function mostrarModuloEspecifico(moduloId) {
     if (!datosCargadosCorrectamente) {
         analizarTodoConIA();
@@ -284,7 +278,6 @@ function mostrarModuloEspecifico(moduloId) {
     if (tarjetaPulsada) tarjetaPulsada.classList.add('selected-card');
 }
 
-// CONTROLLER DE ARRASTRE DE ARCHIVOS
 const dropZone = document.getElementById('drop-zone');
 if (dropZone) {
     dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.style.borderColor = "#00f2fe"; });
@@ -292,23 +285,16 @@ if (dropZone) {
     dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.style.borderColor = "var(--accent)"; analizarTodoConIA(); });
 }
 
-// ==========================================================================
-// CONTROLADOR DE SUB-PESTAÑAS INTERNAS PARA SEGUIMIENTO DETALLADO (BLINDADO)
-// ==========================================================================
 function cambiarSubTab(botonElemento, urlPdf, titulo) {
-    // 1. Apagamos la luz de selección a todos los sub-botones de la grilla
     document.querySelectorAll('.sub-tab-card').forEach(btn => btn.classList.remove('active'));
     
-    // 2. Encendemos la luz active directamente en el botón presionado (parámetro seguro)
     if (botonElemento) {
         botonElemento.classList.add('active');
     }
 
-    // 3. Modificamos el título del visualizador
     document.getElementById('sub-viewer-title').innerText = titulo;
     const frameContainer = document.getElementById('sub-pdf-frame');
     
-    // 4. Cargamos de forma aislada el visor sin tocar listeners globales
     if (frameContainer) {
         if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
             const urlAbsoluta = window.location.origin + window.location.pathname.replace('index.html', '') + urlPdf;
